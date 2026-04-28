@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: questplanner-db
+    restart: always
+    environment:
+      POSTGRES_DB: questplanner_db
+      POSTGRES_USER: quest_user
+      POSTGRES_PASSWORD: 12345678
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./db/init:/docker-entrypoint-initdb.d
+
+  backend:
+    build: .
+    container_name: questplanner-backend
+    restart: always
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+  prometheus:
+    image: prom/prometheus
+    container_name: questplanner-prometheus
+    restart: always
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+
+  node-exporter:
+    image: prom/node-exporter
+    container_name: questplanner-node-exporter
+    restart: always
+    ports:
+      - "9100:9100"
+
+  grafana:
+    image: grafana/grafana
+    container_name: questplanner-grafana
+    restart: always
+    ports:
+      - "3000:3000"
