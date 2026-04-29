@@ -1,0 +1,1 @@
+{"timestamp":3641739,"category":"bounce.tracking.protection","name":"purge_action","extra":{"is_dry_run":"true","site_host":"openai.com","glean_timestamp":"1777393862025","require_stateful_bounces":"false","success":"true","bounce_time":"1777317634"}}
